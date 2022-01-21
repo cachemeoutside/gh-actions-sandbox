@@ -17,8 +17,8 @@ jobs:
       - run: echo "test" > testfile
       - uses: actions/cache@v2
         with:
-          path: ~/worker
-          key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
+          path: .
+          key: testbuild
   deploytest:
     needs: testbuildtestenv
     runs-on: ubuntu-latest

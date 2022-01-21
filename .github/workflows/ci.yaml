@@ -32,3 +32,4 @@ jobs:
 
       - run: find . -type d
       - run: ls -la
+      - run: ls -la ~/

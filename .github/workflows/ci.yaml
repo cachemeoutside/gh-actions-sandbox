@@ -1,0 +1,37 @@
+name: Run CI Build
+
+on:
+  push:
+    branches:
+      - master
+      - SERV-329
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  testbuildtestenv:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ucla-prrla
+    steps:
+      - uses: actions/checkout@v2
+      - run: echo "test" > testfile
+      - uses: actions/cache@v2
+        with:
+          path: .
+          key: testbuild
+  deploytest:
+    needs: testbuildtestenv
+    runs-on: ubuntu-latest
+    steps:
+      - name: testcache
+        id: migratecache
+        uses: actions/cache@v2
+        with:
+          path: .
+          key: testbuild
+
+      - run: find . -type d
+      - run: ls -la

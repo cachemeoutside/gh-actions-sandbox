@@ -17,7 +17,7 @@ jobs:
       - run: echo "test" > testfile
       - uses: actions/cache@v2
         with:
-          path: .
+          path: ~/worker
           key: testbuild
   deploytest:
     needs: testbuildtestenv

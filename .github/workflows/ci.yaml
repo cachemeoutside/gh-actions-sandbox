@@ -14,10 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: echo "test" > testfile
+      - run mkdir dir; echo "test" > dir/testfile
       - uses: actions/cache@v2
         with:
-          path: .
+          path: dir
           key: testbuild
   deploytest:
     needs: testbuildtestenv
@@ -27,7 +27,7 @@ jobs:
         id: migratecache
         uses: actions/cache@v2
         with:
-          path: .
+          path: dir
           key: testbuild
 
       - run: find . -type d

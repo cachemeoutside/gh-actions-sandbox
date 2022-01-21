@@ -29,7 +29,8 @@ jobs:
         with:
           path: dir
           key: testbuild
-
+      - run: cat dir/testfile
+      - run: pwd
       - run: find . -type d
       - run: ls -la
       - run: ls -la ~/

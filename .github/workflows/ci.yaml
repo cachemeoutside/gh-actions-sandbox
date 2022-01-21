@@ -13,8 +13,6 @@ jobs:
   testbuildtestenv:
     runs-on: ubuntu-latest
     defaults:
-      run:
-        working-directory: ucla-prrla
     steps:
       - uses: actions/checkout@v2
       - run: echo "test" > testfile

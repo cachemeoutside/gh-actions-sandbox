@@ -40,7 +40,7 @@ jobs:
 
       - name: Lint helm chart
         run: |
-          helm lint charts/bucketeer
+          helm lint charts
 
       - name: Install CR
         run: |
@@ -48,7 +48,7 @@ jobs:
 
       - name: Test CR action on changed file(s)
         run: |
-          ./cr package charts/bucketeer
+          ./cr package charts
 
   publish:
     runs-on: ubuntu-latest

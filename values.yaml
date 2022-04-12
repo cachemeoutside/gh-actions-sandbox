@@ -1,0 +1,172 @@
+## @section Image Parameters
+## @param image.repository Image Repository URL
+## @param image.pullPolicy Image Pull Policy
+## @param image.tag Image Tag
+## @param imagePullSecrets Credentials to connect a registry account
+image:
+  repository: uclalibrary/bucketeer
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+imagePullSecrets: []
+
+## @section Common Parameters
+## @param nameOverride Name override
+## @param fullnameOverride Name override
+## @param replicaCount Amount of replicas to run
+## @param serviceAccount.create Create service account for application
+## @param serviceAccount.annotations Annotations for service account
+## @param serviceAccount.name Name for service account
+## @param podAnnotations Key/Value map to associate annotations with running pod
+## @param podSecurityContext Key/Value map to associate securityContext with running pod
+## @param securityContext.runAsNonRoot true/false
+## @param securityContext.runAsUser UID of running process
+## @param nodeSelector run on specific node
+## @param tolerations Toleration settings
+## @param affinity Affinity settings
+
+nameOverride: ""
+fullnameOverride: ""
+replicaCount: 1
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext:
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+
+## @section Service Parameters
+## @param service.type Type of service
+## @param service.port Port to bind service
+service:
+  type: ClusterIP
+  port: 80
+
+## @section Ingress Parameters
+## @param ingress.enabled true/false
+## @param ingress.className Name of ingress class
+## @param ingress.annotations Annotations for ingress
+## @param ingress.hosts[0].host DNS compliant name
+## @param ingress.hosts[0].paths[0].path Path to answer
+## @param ingress.hosts[0].paths[0].pathType Path Type
+## @param ingress.tls Reference to secrets containing TLS certificate and keypair
+ingress:
+  enabled: true
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: bucketeer.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+
+## @section Resources Parameters
+## @param resources Key/Value mapping of limits and requests
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+## @section Autoscaling Parameters
+## @param autoscaling.enabled true/false
+## @param autoscaling.minReplicas int
+## @param autoscaling.maxReplicas int
+## @param autoscaling.targetCPUUtilizationPercentage Percentage trigger to scale replica
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+affinity: {}
+
+
+## @section Bucketeer General Parameters
+## @param bucketeer.port Port to run Bucketeer Service
+## @param bucketeer.overrideConfigMap Force overwriting existing ConfigMap in deployed namespace
+## @param bucketeer.overrideSecrets Force overwriting existing Secrets in deployed namespace
+
+## @section Bucketeer ConfigMap Parameters
+## @param bucketeer.env.configmap.LAMBDA_S3_BUCKET Lambda S3 Source Bucket
+## @param bucketeer.env.configmap.BUCKETEER_S3_BUCKET Output Image Bucket for Lambda
+## @param bucketeer.env.configmap.BUCKETEER_S3_REGION Region for Output Image Bucket
+## @param bucketeer.env.configmap.BUCKETEER_FS_IMAGE_MOUNT Target directory in container that contains source images
+## @param bucketeer.env.configmap.BUCKETEER_FS_IMAGE_PREFIX Identifier to indicate structure of path prefix
+## @param bucketeer.env.configmap.BUCKETEER_SLACK_ERROR_CHANNEL_ID Slack error channel id
+## @param bucketeer.env.configmap.BUCKETEER_SLACK_CHANNEL_ID Slack output csv channel id
+## @param bucketeer.env.configmap.BUCKETEER_IIIF_URL IIIF URL linked to Output Image Bucket
+## @param bucketeer.env.configmap.HEAP_SIZE JVM parameter
+## @param bucketeer.env.configmap.SOURCE_MAX_FILE_SIZE Max file size of source image file to send to Lambda for processing
+## @param bucketeer.env.configmap.HTTP_MAX_QUEUE_SIZE Max HTTP queue size
+## @param bucketeer.env.configmap.S3_UPLOADER_THREADS Uploader thread size
+## @param bucketeer.env.configmap.S3_MAX_REQUESTS S3 max requests
+## @param bucketeer.env.configmap.S3_MAX_RETRIES S3 max retries
+## @param bucketeer.env.configmap.LARGE_IMAGE_BUCKETEER URL of Bucketeer Large
+## @param bucketeer.env.configmap.BATCH_CALLBACK_URL Bucketeer callback URL
+## @param bucketeer.env.configmap.FESTER_URL Fester URL
+bucketeer:
+  port: 8888
+  overrideConfigMap: true
+  overrideSecrets: true
+  env:
+    configmap:
+      LAMBDA_S3_BUCKET: "lambdatriggerbucket"
+      BUCKETEER_S3_BUCKET: "cantaloupesourcebucket"
+      BUCKETEER_S3_REGION: "us-west-2"
+      BUCKETEER_FS_IMAGE_MOUNT: "/opt/data"
+      BUCKETEER_FS_IMAGE_PREFIX: "UCLAFilePathPrefix"
+      BUCKETEER_SLACK_ERROR_CHANNEL_ID: "dev-null"
+      BUCKETEER_SLACK_CHANNEL_ID: "dev-null"
+      BUCKETEER_IIIF_URL: "https://iiifurl/iiif/2/"
+      HEAP_SIZE: "2g"
+      SOURCE_MAX_FILE_SIZE: "350000000"
+      HTTP_MAX_QUEUE_SIZE: "5"
+      S3_UPLOADER_THREADS: "10"
+      S3_MAX_REQUESTS: "10"
+      S3_MAX_RETRIES: "30"
+      LARGE_IMAGE_BUCKETEER: "http://bucketeerlarge.test-bucketeer.svc.cluster.local:8888"
+      BATCH_CALLBACK_URL: "http://bucketeer.test-bucketeer.svc.cluster.local/batch/jobs/{}/{}/"
+      FESTER_URL: "http://festerurl/fester"
+
+## @section Bucketeer Secrets Parameters
+## @param bucketeer.env.secrets.BUCKETEER_S3_SECRET_KEY AWS Secret Key for S3
+## @param bucketeer.env.secrets.BUCKETEER_S3_ACCESS_KEY AWS Access Key for S3
+## @param bucketeer.env.secrets.BUCKETEER_SLACK_OAUTH_TOKEN Slack OAuth token
+    secrets:
+      BUCKETEER_S3_SECRET_KEY: "ENTERSECRET"
+      BUCKETEER_S3_ACCESS_KEY: "ENTERKEY"
+      BUCKETEER_SLACK_OAUTH_TOKEN: "ENTERTOKEN"

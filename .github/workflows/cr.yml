@@ -40,7 +40,7 @@ jobs:
 
       - name: Lint helm chart
         run: |
-          helm lint charts
+          helm lint charts/bucketeer
 
       - name: Install CR
         run: |
@@ -48,7 +48,7 @@ jobs:
 
       - name: Test CR action on changed file(s)
         run: |
-          ./cr package charts
+          ./cr package charts/bucketeer
 
   publish:
     runs-on: ubuntu-latest
@@ -62,11 +62,6 @@ jobs:
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-
-      - name: output
-        run: |
-          ls -la
-          find . -type d
 
       - name: Install Helm
         uses: azure/setup-helm@18bc76811624f360dbd7f18c2d4ecb32c7b87bab #v1

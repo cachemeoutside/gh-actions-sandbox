@@ -55,9 +55,19 @@ jobs:
     needs: validate
     if: github.event_name != 'pull_request'
     steps:
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Install Helm
+        uses: azure/setup-helm@18bc76811624f360dbd7f18c2d4ecb32c7b87bab #v1
+        with:
+          version: v3.8.1
+
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.4.0
         with:
-          charts_dir: '$(PWD)'
+          charts_dir: charts
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"

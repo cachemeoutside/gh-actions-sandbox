@@ -24,7 +24,7 @@ jobs:
 
       - name: Add helm repository dependencies
         run: |
-          for chartyaml in $(find . -type f -name "Chart.yaml")
+          for chartyaml in $(find charts -type f -name "Chart.yaml")
           do
             dependencies=$(cat ${chartyaml} | grep "repository: https" | awk '{print $2}' | xargs)
             subchart_root=$(echo ${chartyaml} | awk -F '[/]' '{print $1"/"$2}')
@@ -40,7 +40,7 @@ jobs:
 
       - name: Lint helm chart
         run: |
-          helm lint .
+          helm lint charts
 
       - name: Install CR
         run: |
@@ -48,7 +48,7 @@ jobs:
 
       - name: Test CR action on changed file(s)
         run: |
-          ./cr package .
+          ./cr package charts
 
   publish:
     runs-on: ubuntu-latest
@@ -71,6 +71,6 @@ jobs:
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.4.0
         with:
-          charts_dir: .
+          charts_dir: charts
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"

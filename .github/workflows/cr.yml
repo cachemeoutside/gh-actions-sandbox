@@ -56,7 +56,7 @@ jobs:
     if: github.event_name != 'pull_request'
     steps:
       - name: Run chart-releaser
-        uses: helm/chart-releaser-action@a3454e46a6f5ac4811069a381e646961dda2e1bf #v1.4.0
+        uses: helm/chart-releaser-action@v1.2.1
         with:
           charts_dir: .
         env:

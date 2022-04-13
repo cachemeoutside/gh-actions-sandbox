@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 #v2
+        with:
+          fetch-depth: 0
 
       - name: Configure Git
         run: |
@@ -29,3 +31,5 @@ jobs:
         uses: helm/chart-releaser-action@120944e66390c2534cc1b3c62d7285ba7ff02594
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        with:
+          charts_dir: "."

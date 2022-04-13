@@ -31,5 +31,3 @@ jobs:
         uses: helm/chart-releaser-action@120944e66390c2534cc1b3c62d7285ba7ff02594
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-        with:
-          charts_dir: "."

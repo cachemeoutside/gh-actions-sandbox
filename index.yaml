@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  bucketeer:
+  - apiVersion: v2
+    appVersion: 0.5.5
+    created: "2022-04-13T00:35:35.642925306Z"
+    description: Helm Chart to Deploy Bucketeer
+    digest: c274cfdac33b1e71fa5fb639811dad0c0c1558e2eb583b2014165831772044ed
+    name: bucketeer
+    type: application
+    urls:
+    - https://github.com/cachemeoutside/gh-actions-sandbox/releases/download/bucketeer-1.0.0/bucketeer-1.0.0.tgz
+    version: 1.0.0
+generated: "2022-04-13T00:35:35.642938107Z"
